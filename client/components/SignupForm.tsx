@@ -35,30 +35,10 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { CalendarIcon } from "lucide-react";
+import { signupFormSchema } from "@/lib/validation-schemas";
 
 // Define validation schema using Zod
-const formSchema = z
-  .object({
-    name: z
-      .string()
-      .min(2, { message: "Name must be at least 2 characters long" }),
-    email: z.string().email({ message: "Invalid email address" }),
-    dob: z
-      .date({
-        required_error: "A date of birth is required.",
-      })
-      .transform((date) => date.toISOString().split("T")[0]), // Transform to YYYY-MM-DD format
-    phone: z.string().min(10, { message: "Phone number must be valid" }),
-    password: z
-      .string()
-      .min(6, { message: "Password must be at least 6 characters long" })
-      .regex(/[a-zA-Z0-9]/, { message: "Password must be alphanumeric" }),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    path: ["confirmPassword"],
-    message: "Passwords do not match",
-  });
+const formSchema = signupFormSchema;
 
 export default function SignupForm() {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -77,11 +57,7 @@ export default function SignupForm() {
     try {
       // Assuming an async registration function
       console.log(values);
-      toast(
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
-      );
+      toast(`${JSON.stringify(values, null, 2)}`);
     } catch (error) {
       console.error("Form submission error", error);
       toast.error("Failed to submit the form. Please try again.");
