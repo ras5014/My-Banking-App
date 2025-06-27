@@ -43,7 +43,7 @@ import { signupFormSchema } from "@/lib/validation-schemas";
 const formSchema = signupFormSchema;
 
 export default function SignupForm() {
-  const [isLoading, setisLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -60,9 +60,9 @@ export default function SignupForm() {
     try {
       // Assuming an async registration function
       console.log(values);
-      setisLoading(true);
+      setIsLoading(true);
       setTimeout(() => {
-        setisLoading(false);
+        setIsLoading(false);
         toast.success("Registration successful!");
       }, 2000);
     } catch (error) {

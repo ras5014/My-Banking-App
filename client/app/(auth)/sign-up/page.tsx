@@ -1,6 +1,4 @@
 import { GalleryVerticalEnd } from "lucide-react";
-
-import Image from "next/image";
 import Link from "next/link";
 import SignupForm from "@/components/SignupForm";
 import AuthImage from "@/components/AuthImage";
