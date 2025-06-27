@@ -5,6 +5,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 import {
   Form,
@@ -25,10 +26,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { loginFormSchema } from "@/lib/validation-schemas";
+import { useState } from "react";
 
 const formSchema = loginFormSchema;
 
 export default function LoginForm() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,11 +45,11 @@ export default function LoginForm() {
     try {
       // Assuming an async login function
       console.log(values);
-      toast(
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
-      );
+      setIsLoading(true);
+      setTimeout(() => {
+        setIsLoading(false);
+        toast.success("Login successful!");
+      }, 2000);
     } catch (error) {
       console.error("Form submission error", error);
       toast.error("Failed to submit the form. Please try again.");
@@ -110,7 +114,8 @@ export default function LoginForm() {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full">
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading && <Loader2 className="h-5 w-5 animate-spin" />}
                   Login
                 </Button>
                 <Button variant="outline" className="w-full">

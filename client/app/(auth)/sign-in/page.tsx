@@ -3,6 +3,7 @@ import { GalleryVerticalEnd } from "lucide-react";
 import LoginForm from "@/components/LoginForm";
 import Image from "next/image";
 import Link from "next/link";
+import AuthImage from "@/components/AuthImage";
 
 export default function SigninPage() {
   return (
@@ -22,15 +23,7 @@ export default function SigninPage() {
           </div>
         </div>
       </div>
-      <div className="bg-muted relative hidden lg:block">
-        <Image
-          src="/assets/images/auth-pic.jpg"
-          alt="Auth Image"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-          width={2000}
-          height={2000}
-        />
-      </div>
+      <AuthImage />
     </div>
   );
 }

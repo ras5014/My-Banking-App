@@ -6,6 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { format } from "date-fns";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
@@ -41,6 +43,7 @@ import { signupFormSchema } from "@/lib/validation-schemas";
 const formSchema = signupFormSchema;
 
 export default function SignupForm() {
+  const [isLoading, setisLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -57,7 +60,11 @@ export default function SignupForm() {
     try {
       // Assuming an async registration function
       console.log(values);
-      toast(`${JSON.stringify(values, null, 2)}`);
+      setisLoading(true);
+      setTimeout(() => {
+        setisLoading(false);
+        toast.success("Registration successful!");
+      }, 2000);
     } catch (error) {
       console.error("Form submission error", error);
       toast.error("Failed to submit the form. Please try again.");
@@ -168,13 +175,6 @@ export default function SignupForm() {
                       <FormLabel htmlFor="phone">Phone Number</FormLabel>
                       <FormControl>
                         <PhoneInput {...field} defaultCountry="TR" />
-                        {/* <Input
-                          id="phone"
-                          placeholder="555-123-4567"
-                          type="tel"
-                          autoComplete="tel"
-                          {...field}
-                        /> */}
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -223,7 +223,8 @@ export default function SignupForm() {
                   )}
                 />
 
-                <Button type="submit" className="w-full">
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading && <Loader2 className="h-5 w-5 animate-spin" />}
                   Register
                 </Button>
               </div>
