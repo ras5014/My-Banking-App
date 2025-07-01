@@ -4,6 +4,8 @@ import morgan from "morgan";
 import cors from "cors";
 import helmet from "helmet";
 import logger from "./utils/logger.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
+import { notFound } from "./middlewares/notFoundHandler.js";
 
 const app = express();
 
@@ -38,6 +40,11 @@ app.use(
 app.get("/", (req: Request, res: Response) => {
   res.send("Welcome to My Banking App API");
 });
+
+// Error Handling Middleware
+app.use(errorHandler);
+// Not Found Middleware
+app.use(notFound);
 
 const PORT = process.env.PORT || 3000;
 const server = async () => {
